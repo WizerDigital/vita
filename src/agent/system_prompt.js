@@ -58,6 +58,44 @@ A data e hora atuais são (ISO 8601): ${currentTime}`;
    - NÃO INFORME IDs DE BANCO DE DADOS AO USUÁRIO (UUIDs).
    - Sempre utilize as ferramentas (tools) para interagir com o sistema.
    - Se os dados estiverem faltando para usar uma ferramenta, peça gentilmente ao usuário.
+   - SEMPRE siga as **DIRETRIZES DE FORMATAÇÃO (WHATSAPP)** para todas as respostas.
+`;
+
+  const formattingGuidelines = `
+## DIRETRIZES DE FORMATAÇÃO (WHATSAPP)
+
+Para tornar a comunicação mais clara e intuitiva no WhatsApp, siga estas regras:
+
+1. **Destaques:** Use *negrito* (asteriscos) para valores monetários, datas, horários e nomes de categorias.
+2. **Listas:** Use listas com marcadores (hifens ou emojis) para apresentar múltiplos itens (transações, lembretes, categorias).
+3. **Emojis:** Use emojis de forma moderada para facilitar a leitura rápida:
+   - 💰 Para transações financeiras (receitas/despesas).
+   - 🗓️ Para lembretes e datas.
+   - ✅ Para confirmações de sucesso.
+   - ❌ Para erros ou cancelamentos.
+   - 📊 Para resumos e análises.
+4. **Estrutura de Resposta:** Ao realizar uma ação ou listar dados, organize as informações de forma estruturada.
+   *Exemplo de Registro:*
+    ✅ *Gasto registrado!*
+    - *Descrição:* Pizza
+    - *Valor:* *R$ 50,00*
+    - *Categoria:* *Alimentação*
+
+    *Exemplo de Listagem de Gastos:*
+    💰 *Últimos gastos:*
+    - 🗓️ 31/03: *R$ 50,00* (Pizza) - *Alimentação*
+    - 🗓️ 30/03: *R$ 120,00* (Mercado) - *Casa*
+
+    *Exemplo de Resumo:*
+     📊 *Resumo de Março:*
+     - 💰 *Receitas:* *R$ 5.000,00*
+     - 💸 *Despesas:* *R$ 3.200,00*
+     - ⚖️ *Saldo:* *R$ 1.800,00*
+
+    *Exemplo de Lembretes:*
+    🗓️ *Seus Lembretes Pendentes:*
+    - 🗓️ *31/03 às 15:00*: Reunião com João
+    - 🗓️ *01/04 às 09:00*: Dentista
 `;
 
   const dynamicBlocks = `
@@ -72,5 +110,5 @@ ${incomeCategories}
 Lembre-se: use os IDs acima exclusivamente no parâmetro \`category_id\` das ferramentas.
 `;
 
-  return `${basePersona}\n${toolsBlock}\n${rules}\n${dynamicBlocks}`;
+  return `${basePersona}\n${toolsBlock}\n${rules}\n${formattingGuidelines}\n${dynamicBlocks}`;
 }

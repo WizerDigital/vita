@@ -90,22 +90,9 @@ app.post('/webhook', async (req, res) => {
       return res.status(200).send('Empty message ignored');
     }
 
-    const bufferKey = `chat_buffer:${TENANT_ID}:${contactId}`;
-    await redis.rpush(bufferKey, textToProcess);
+    const userQueueKey = `user_queue:${TENANT_ID}:${contactId}`;
+    await redis.rpush(userQueueKey, textToProcess);
     
-    const jobId = `job_chat_${TENANT_ID}_${contactId}`;
-    
-    const existingJob = await chatQueue.getJob(jobId);
-    if (existingJob) {
-      console.log(`[BUFFER] Mensagem adicional recebida. Removendo job existente (ID: ${jobId}) para estender o tempo do buffer.`);
-      await existingJob.remove();
-    } else {
-      console.log(`[BUFFER] Nova mensagem. Iniciando timer de buffer para o job (ID: ${jobId}).`);
-    }
-
-    const bufferTime = parseInt(process.env.MESSAGE_BUFFER_TIME_MS, 10) || 3000;
-    console.log(`[BUFFER] Adicionando novo job (ID: ${jobId}) com delay de ${bufferTime}ms.`);
-
     await chatQueue.add(
       'process_chat', 
       { 
@@ -114,7 +101,15 @@ app.post('/webhook', async (req, res) => {
         phone: rawPhone, 
         session: process.env.WAHA_SESSION || payload.session || 'default' 
       },
-      { jobId, delay: bufferTime, removeOnComplete: true, removeOnFail: false }
+      { 
+        removeOnComplete: true, 
+        removeOnFail: false,
+        attempts: 10,
+        backoff: {
+          type: 'fixed',
+          delay: 1000
+        }
+      }
     );
 
     res.status(200).send('Webhook processed');
