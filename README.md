@@ -28,8 +28,8 @@ Agente conversacional escalável integrado com WAHA (WhatsApp HTTP API), OpenAI,
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/rafaelfranskowiak/agente-base.git
-cd agente-base
+git clone https://github.com/WizerDigital/vita.git
+cd vita
 ```
 
 2. Instale as dependências:
